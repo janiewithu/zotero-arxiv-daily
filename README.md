@@ -182,6 +182,33 @@ uv run main.py
 ## 🚀 Sync with the latest version
 This project is in active development. You can subscribe this repo via `Watch` so that you can be notified once we publish new release.
 
+### Weekly IEEE venues → Zotero inbox
+
+The optional `Weekly IEEE venues to Zotero` workflow searches selected IEEE
+journals and conferences once a week, removes records already present in the
+Zotero library, and adds new matches to `Journal-Conference/latest`. It uses
+IEEE Xplore for venue metadata and OpenAlex only to locate lawful open-access
+PDFs. Non-open-access records keep their DOI and IEEE Xplore link; the workflow
+does not automate institutional login or bypass access controls.
+
+Required GitHub Actions secrets:
+
+- `ZOTERO_ID`
+- `ZOTERO_KEY` with Zotero library write permission (and file permission if OA
+  PDFs should be uploaded)
+- `IEEE_API_KEY` from the IEEE Xplore API portal
+
+Optional repository variables:
+
+- `WEEKLY_DRY_RUN`: keep `true` for the first manual run; set `false` only
+  after checking the log.
+- `OPENALEX_MAILTO`: contact email for polite OpenAlex API usage.
+
+Edit `config/weekly_venues.yaml` to change venues, PLL/RFIC keywords, the
+lookback window, or the target collection. The default schedule is Monday
+08:30 Asia/Shanghai. Run the workflow manually once in dry-run mode before
+enabling writes.
+
 ![Watch](./assets/subscribe_release.png)
 
 
