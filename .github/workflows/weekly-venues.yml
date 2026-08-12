@@ -1,0 +1,33 @@
+name: Weekly IEEE venues to Zotero
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/weekly-venues.yml"
+      - "config/weekly_venues.yaml"
+      - "src/zotero_arxiv_daily/weekly_venues.py"
+      - "tests/test_weekly_venues.py"
+  schedule:
+    # Monday 00:30 UTC = Monday 08:30 Asia/Shanghai.
+    - cron: "30 0 * * 1"
+
+jobs:
+  discover-and-import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v7.1.4
+
+      - name: Retrieve venues and update Zotero
+        env:
+          ZOTERO_ID: ${{ secrets.ZOTERO_ID }}
+          ZOTERO_KEY: ${{ secrets.ZOTERO_KEY }}
+          IEEE_API_KEY: ${{ secrets.IEEE_API_KEY }}
+          OPENALEX_MAILTO: ${{ vars.OPENALEX_MAILTO }}
+          # PR validation must never write test records into Zotero.
+          WEEKLY_DRY_RUN: ${{ github.event_name == 'pull_request' && 'true' || vars.WEEKLY_DRY_RUN }}
+        run: uv run python -m zotero_arxiv_daily.weekly_venues --config config/weekly_venues.yaml
