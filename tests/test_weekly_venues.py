@@ -8,6 +8,7 @@ from zotero_arxiv_daily.weekly_venues import (
     normalize_doi,
     normalize_title,
     parse_bool,
+    load_config,
 )
 
 
@@ -78,3 +79,14 @@ def test_ieee_query_uses_insertion_date_delta(monkeypatch):
     )
     assert (end - start).days == 14
     assert captured["sort_field"] == "article_number"
+
+
+def test_venue_aliases_are_loaded_as_strings(monkeypatch):
+    monkeypatch.setenv("ZOTERO_ID", "test-user")
+    monkeypatch.setenv("ZOTERO_KEY", "test-key")
+    config = load_config("config/weekly_venues.yaml")
+    venues = config["weekly_venues"]["venues"]
+
+    assert venues["TCAS-I"] == ["IEEE Transactions on Circuits and Systems I: Regular Papers"]
+    assert venues["TCAS-II"] == ["IEEE Transactions on Circuits and Systems II: Express Briefs"]
+    assert all(isinstance(alias, str) for aliases in venues.values() for alias in aliases)
