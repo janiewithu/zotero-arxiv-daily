@@ -17,9 +17,9 @@ weekly_venues:
     JSSC:
       - IEEE Journal of Solid-State Circuits
     TCAS-I:
-      - IEEE Transactions on Circuits and Systems I: Regular Papers
+      - "IEEE Transactions on Circuits and Systems I: Regular Papers"
     TCAS-II:
-      - IEEE Transactions on Circuits and Systems II: Express Briefs
+      - "IEEE Transactions on Circuits and Systems II: Express Briefs"
     T-MTT:
       - IEEE Transactions on Microwave Theory and Techniques
     ISSCC:
