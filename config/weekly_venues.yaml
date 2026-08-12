@@ -1,0 +1,56 @@
+zotero:
+  user_id: ${oc.env:ZOTERO_ID}
+  api_key: ${oc.env:ZOTERO_KEY}
+
+weekly_venues:
+  # Keep true until the GitHub Action log shows the expected papers.
+  dry_run: ${oc.env:WEEKLY_DRY_RUN,true}
+  target_collection: Journal-Conference/latest
+  lookback_days: 14
+  max_records_per_venue: 100
+  max_additions_per_run: 30
+  openalex_mailto: ${oc.env:OPENALEX_MAILTO,""}
+
+  # IEEE Xplore publication_title values. Conference names sometimes vary by
+  # year, so aliases can be added to the list without changing code.
+  venues:
+    JSSC:
+      - IEEE Journal of Solid-State Circuits
+    TCAS-I:
+      - IEEE Transactions on Circuits and Systems I: Regular Papers
+    TCAS-II:
+      - IEEE Transactions on Circuits and Systems II: Express Briefs
+    T-MTT:
+      - IEEE Transactions on Microwave Theory and Techniques
+    ISSCC:
+      - IEEE International Solid-State Circuits Conference (ISSCC)
+    VLSI:
+      - IEEE Symposium on VLSI Technology and Circuits (VLSI Technology and Circuits)
+      - Symposium on VLSI Circuits
+    CICC:
+      - IEEE Custom Integrated Circuits Conference (CICC)
+    RFIC:
+      - IEEE Radio Frequency Integrated Circuits Symposium (RFIC)
+    ESSCIRC:
+      - European Solid-State Circuits Conference (ESSCIRC)
+
+  # Case-insensitive title/abstract filter tailored to PLL/RFIC research.
+  # Set to [] to accept every paper from the configured venues.
+  keywords:
+    - phase-locked loop
+    - phase locked loop
+    - PLL
+    - frequency synthesizer
+    - clock generator
+    - injection-locked
+    - injection locked
+    - sub-sampling
+    - subsampling
+    - phase noise
+    - jitter
+    - time-to-digital converter
+    - digital-to-time converter
+    - fractional-N
+    - reference spur
+    - clock and data recovery
+    - CDR
